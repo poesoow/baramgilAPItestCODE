@@ -1,15 +1,17 @@
 <template>
   <div>
-    <div>
-      
-    </div>
+    <ul>
+      <li><router-link to=""></router-link></li>
+    </ul>
   </div>
 </template>
+
 <script>
-export default {
-  name: "HomePage"
-}
+  export default {
+    name: 'HomePage',
+  }
 </script>
-<style>
-  
+
+<style lang="scss" scoped>
+
 </style>

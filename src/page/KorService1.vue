@@ -5,7 +5,7 @@
     <!-- URL 선택 -->
     <h3 class="my-3">
       <ol class="flex flex-wrap gap-4">
-        <li @click="choose(api, i)" v-for="(api, i) in apiLists" :key="api"><span>{{ i }}. </span>{{ api.desc }}</li>
+        <li @click="choose(api, i)" v-for="(api, i) in apiLists" :key="api"><span>{{ i + 1 }}. </span>{{ api.desc }}</li>
       </ol>
     </h3>
 
@@ -48,29 +48,32 @@
         </select>
       </div>
 
-      <div v-if="selectAPIindex == 1" class="flex">
+      <div v-if="this.selectAPI.api == 'locationBasedList1'" class="flex">
         <!-- 현재 위치 GPS 값 가져오는 기능 찾아서 넣어야 함 -->
         <label for="radius" class="btn-primary hover:bg-green-700">거리반경 : {{ radius }}미터</label>
         <input v-model="radius" id="radius" type="range" min="100" max="20000" class="mx-3 border rounded py-1">
       </div>
 
-      <div v-else-if="selectAPIindex == 2" class="flex">
+      <div v-else-if="this.selectAPI.api == 'searchKeyword1'" class="flex">
         <label for="keyword" class="btn-primary hover:bg-green-700">검색 </label>
         <input v-model="keyword" id="keyword" type="text" class="mx-3 border rounded py-1 block">
       </div>
 
-      <div v-else-if="selectAPIindex == 3" class="flex">
+      <div v-else-if="this.selectAPI.api == 'searchFestival1'" class="flex">
         <label for="eventStartDate" class="btn-primary hover:bg-green-700">행사시작일 (YYYYMMDD)</label>
         <input v-model.number="eventStartDate" id="eventStartDate" type="text" class="mx-3 border rounded py-1 block">
       </div>
 
 
     </div>
-    <button @click="fetchData" >api 데이터 호출</button>
+    <div class="flex gap-3">
+      <button @click="fetchData" class="btn-primary">api 데이터 호출</button>
+      <button @click="dataList = null" class="btn-primary">닫기</button>
+    </div>
     <hr>
 
     <h3>/{{ selectAPI.api }} : {{ selectAPI.desc }}</h3>
-    <div v-if="selectAPIindex == 1">
+    <div v-if="this.selectAPI.api == 'locationBasedList1'">
       <ul>
         <li v-for="(data, index) in dataList" :key="index">
           <div>{{ data.title }}</div>
@@ -80,7 +83,7 @@
       </ul>
     </div>
 
-    <div v-if="selectAPIindex == 2">
+    <div v-if="this.selectAPI.api == 'searchKeyword1'">
       <div>한글은 인코딩 필요</div>
       <ul>
         <li v-for="(data, index) in dataList" :key="index">
@@ -89,7 +92,7 @@
       </ul>
     </div>
 
-    <div v-if="selectAPIindex == 3">
+    <div v-if="this.selectAPI.api == 'searchFestival1'">
       <ul>
         <li v-for="(data, index) in dataList" :key="index">
             <div>{{ data.title }}</div>
@@ -99,7 +102,7 @@
       </ul>
     </div>
 
-    <div v-if="selectAPIindex == 4">
+    <div v-if="this.selectAPI.api == 'searchStay1'">
       <ul>
         <li v-for="(data, index) in dataList" :key="index">
             <div>{{ data.title }}</div>
@@ -109,7 +112,7 @@
       </ul>
     </div>
 
-    <div v-if="selectAPIindex == 5">
+    <div v-if="this.selectAPI.api == 'detailCommon1'">
       타입별공통 정보기본정보,약도이미지,대표이미지,분류정보,지역정보,주소정보,좌표정보,개요정보,길안내정보,이미지정보,연계관광정보목록을 조회하는 기능 <br>
       이라고 하는데 정확한 사용법은 더 찾아봐야 알거 같음
       <ul>
@@ -119,7 +122,7 @@
       </ul>
     </div>
 
-    <div v-if="selectAPIindex == 6">
+    <div v-if="this.selectAPI.api == 'detailIntro1'">
       <ul>
         <li v-for="(data, index) in dataList" :key="index">
           {{ data }}
@@ -127,20 +130,28 @@
       </ul>
     </div>
 
-    <div v-if="selectAPIindex == 7">
+    <div v-if="this.selectAPI.api == 'detailInfo1'">
       생략
     </div>
 
-    <div v-if="selectAPIindex == 8">
+    <div v-if="this.selectAPI.api == 'detailImage1'">
       생략
     </div>
 
-    <div v-if="selectAPIindex == 9">
+    <div v-if="this.selectAPI.api == 'areaBasedSyncList1'">
       이게 가장 기본인가...???
       <ul>
         <li v-for="(data, index) in dataList" :key="index">
           {{ data }}
            <img :src="data.firstimage" alt="">
+        </li>
+      </ul>
+    </div>
+
+     <div v-if="(this.selectAPI.api == 'areaCode1') || (this.selectAPI.api == 'detailPetTour1') || (this.selectAPI.api == 'categoryCode1') || (this.selectAPI.api == 'areaBasedList1')">
+      <ul>
+        <li v-for="(data, index) in dataList" :key="index">
+          {{ data }}
         </li>
       </ul>
     </div>
@@ -153,7 +164,7 @@
   import axios from 'axios'
 
   export default {
-    name: 'ApiTest',
+    name: 'KorService',
     data() {
       return {
         baseURL: 'https://apis.data.go.kr/B551011/KorService1/',
@@ -167,8 +178,10 @@
           { api: 'detailInfo1', desc: '반복정보조회' }, // 생략
           { api: 'detailImage1', desc: '이미지정보조회' }, // 생략
           { api: 'areaBasedSyncList1', desc: '관광정보 동기화 목록 조회' },
-          { api: 'areaCode1', desc: '지역코드조회' }, // 생략  지역코드목록을 지역,시군구,읍면동 코드목록을 조회하는 기능
-
+          { api: 'areaCode1', desc: '지역코드조회' }, // 상세 검색을 위해서 필요
+          { api: 'detailPetTour1', desc: '반려동물 동반 여행 정보' }, 
+          { api: 'categoryCode1', desc: '서비스분류코드' }, // 상세 검색을 위해서 필요
+          { api: 'areaBasedList1', desc: '지역기반 관광정보조회' },
         ],
         selectAPIindex: 0,
         selectAPI: { api: 'locationBasedList1', desc: '위치기반 관광정보조희' },
@@ -210,42 +223,46 @@
 
         let endpointGet;
 
-        if(this.selectAPIindex == 1){
+        if(this.selectAPI.api == 'locationBasedList1'){
           endpointGet = axios.get(`${this.baseURL}${api}?serviceKey=${this.serviceKey}&numOfRows=${this.numOfrows}&pageNo=${this.pageNo}&MobileOS=${this.Mobileos}&MobileApp=AppTest&_type=json&listYN=${this.listYN}&arrange=${this.arrange}&mapX=${this.mapX}&mapY=${this.mapY}&radius=${this.radius}&contentTypeId=${this.contentTypeId}`)
-        } else if(this.selectAPIindex == 2) {
+        } else if(this.selectAPI.api == 'searchKeyword1') {
           endpointGet = axios.get(`${this.baseURL}${api}?serviceKey=${this.serviceKey}&numOfRows=${this.numOfrows}&pageNo=${this.pageNo}&MobileOS=${this.Mobileos}&MobileApp=AppTest&_type=json&listYN=${this.listYN}&arrange=${this.arrange}&contentTypeId=${this.contentTypeId}&keyword=${this.keyword}`)
-        } else if (this.selectAPIindex == 3) {
+        } else if (this.selectAPI.api == 'searchFestival1') {
           endpointGet = axios.get(`${this.baseURL}${api}?serviceKey=${this.serviceKey}&numOfRows=${this.numOfrows}&pageNo=${this.pageNo}&MobileOS=${this.Mobileos}&MobileApp=AppTest&_type=json&listYN=${this.listYN}&arrange=${this.arrange}&eventStartDate=${this.eventStartDate}`)
-        } else if (this.selectAPIindex == 4) {
+        } else if (this.selectAPI.api == 'searchStay1') {
           endpointGet = axios.get(`${this.baseURL}${api}?serviceKey=${this.serviceKey}&numOfRows=${this.numOfrows}&pageNo=${this.pageNo}&MobileOS=${this.Mobileos}&MobileApp=AppTest&_type=json&listYN=${this.listYN}&arrange=${this.arrange}`)
-        } else if (this.selectAPIindex == 5) {
+        } else if (this.selectAPI.api == 'detailCommon1') {
           endpointGet = axios.get(`${this.baseURL}${api}?serviceKey=${this.serviceKey}&numOfRows=${this.numOfrows}&pageNo=${this.pageNo}&MobileOS=${this.Mobileos}&MobileApp=AppTest&_type=json&contentId=${this.contentId}`)
-        } else if (this.selectAPIindex == 6) {
+        } else if (this.selectAPI.api == 'detailIntro1') {
           endpointGet = axios.get(`${this.baseURL}${api}?serviceKey=${this.serviceKey}&numOfRows=${this.numOfrows}&pageNo=${this.pageNo}&MobileOS=${this.Mobileos}&MobileApp=AppTest&_type=json&contentId=${this.contentId}&contentTypeId=${this.contentTypeid}`)
-        } else if (this.selectAPIindex == 7) {
+        } else if (this.selectAPI.api == 'detailInfo1') {
           console.log('생략')
-        } else if (this.selectAPIindex == 8) {
+        } else if (this.selectAPI.api == 'detailImage1') {
           console.log('생략')
-        } else if (this.selectAPIindex == 9) {
+        } else if ((this.selectAPI.api == 'areaBasedSyncList1') || (this.selectAPI.api == 'areaCode1') || (this.selectAPI.api == 'detailPetTour1') || (this.selectAPI.api == 'categoryCode1') || (this.selectAPI.api == 'areaBasedList1')) {
           endpointGet = axios.get(`${this.baseURL}${api}?serviceKey=${this.serviceKey}&numOfRows=${this.numOfrows}&pageNo=${this.pageNo}&MobileOS=${this.Mobileos}&MobileApp=AppTest&_type=json`)
         }
 
 
-        console.log('index', this.selectAPIindex)
+        console.log('api', this.selectAPI.api)
 
-        endpointGet.then(
-          (res) => {
-              console.log(res.data.response.body)
-              this.dataList = res.data.response.body.items.item
-          }
-        ).catch((err) => {
-          console.log(err)
-        })
+        if((this.selectAPI.api == 'detailInfo1') || (this.selectAPI.api == 'detailImage1')) { 
+          return false
+        } else {
+          endpointGet.then(
+            (res) => {
+                console.log(res.data.response.body)
+                this.dataList = res.data.response.body.items.item
+            }
+          ).catch((err) => {
+            console.log(err)
+          })
+        }
       }
     },
     mounted() {
       // axios.
-      // get(`${this.baseURL}areaBasedSyncList1?serviceKey=${this.serviceKey}&numOfRows=${this.numOfrows}&pageNo=${this.pageNo}&MobileOS=${this.Mobileos}&MobileApp=AppTest&_type=json`)
+      // get(`${this.baseURL}detailPetTour1?serviceKey=${this.serviceKey}&numOfRows=${this.numOfrows}&pageNo=${this.pageNo}&MobileOS=${this.Mobileos}&MobileApp=AppTest&_type=json`)
       // .then(
       //   (res)=>{
       //     console.log(res)
