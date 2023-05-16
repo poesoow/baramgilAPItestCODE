@@ -1,6 +1,5 @@
 <template>
   <div>
-    {{ select }}
     <ul class="flex gap-3 my-4 max-w-4xl mx-auto">
       <li 
         v-for="(link, index) in routerList" :key="link"
@@ -9,8 +8,9 @@
         <router-link :to="link.url">{{ link.desc }}</router-link>
       </li>
     </ul>
+   
+    <router-view :userLoc="userLoc"></router-view>
 
-    <router-view></router-view>
   </div>
 </template>
 
@@ -29,7 +29,24 @@ export default {
         {url: 'photogallery', desc: '관광 사진 정보'}
       ],
       select: 0, 
+      userLoc: {},
     }
+  },
+  methods: {
+    getLoc() {
+      // https://developer.mozilla.org/ko/docs/Web/API/Geolocation_API/Using_the_Geolocation_API
+      if ("geolocation" in navigator) {
+        console.log('위치정보 사용 가능')
+        navigator.geolocation.getCurrentPosition((position) => {
+          this.userLoc = { lat: position.coords.latitude, loc: position.coords.longitude }
+        });
+      } else {
+        console.log('위치정보 사용 불가능')
+      }
+    }
+  },
+  mounted() {
+    this.getLoc()
   },
 }
 </script>

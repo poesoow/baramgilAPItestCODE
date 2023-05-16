@@ -1,10 +1,9 @@
 <template>
   <div class="max-w-7xl mx-auto my-5">
-
     <h2 class="text-3xl">한국관광공사_국문 관광정보 서비스_GW<a class="text-base" href="https://www.data.go.kr/tcs/dss/selectApiDataDetailView.do?publicDataPk=15101578#/API%20%EB%AA%A9%EB%A1%9D/locationBasedList1">링크</a></h2>
     <!-- URL 선택 -->
     <h3 class="my-3">
-      <ol class="flex flex-wrap gap-4">
+      <ol class="flex flex-wrap gap-4 border">
         <li @click="choose(api, i)" v-for="(api, i) in apiLists" :key="api"><span>{{ i + 1 }}. </span>{{ api.desc }}</li>
       </ol>
     </h3>
@@ -72,34 +71,69 @@
     </div>
     <hr>
 
-    <h3>/{{ selectAPI.api }} : {{ selectAPI.desc }}</h3>
+    <h3 class="font-bold ">선택: /{{ selectAPI.api }} : {{ selectAPI.desc }}</h3>
+
     <div v-if="this.selectAPI.api == 'locationBasedList1'">
-      <ul>
-        <li v-for="(data, index) in dataList" :key="index">
-          <div>{{ data.title }}</div>
-          <img :src="data.firstimage" alt="">
-          <img :src="data.firstimage2" alt="">
-        </li>
-      </ul>
+      <div class="pb-24 basis-full flex flex-wrap gap-x-3.5">
+        <div v-for="data in dataList" :key="data" class="basis-full border rounded-md mb-20 relative flex flex-wrap items-center group">
+          <div class="basis-full md:basis-2/4 group-odd:order-1 md:group-odd:order-1 md:group-even:order-2">
+            <img :src="data.firstimage" :alt="data.title" class="w-full p-2.5 h-[350px]">
+          </div>
+          <div class="basis-full md:basis-2/4 md:group-even:left-14 md:group-odd:-left-14 group-odd:order-2 group-even:text-right group-even:order-1 relative z-10 px-7 sm:px-16 py-5 box-border">
+            <h3 class="py-5 font-bold">{{ data.title }}</h3>
+            <p class="pb-3">{{ data.addr1 }}<span>{{ data.addr2 }}</span></p>
+            <p class="pb-3">저작권 표시 : {{ data.cpyrhtDivCd == 'Type1' ? '제1유형(출처표시-권장)' : (data.cpyrhtDivCd == 'Type3' ? '제3유형(출처표시-권장+변경금지)' : '값 표시 없음') }}</p>
+            <p class="pb-3">콘텐츠ID : {{ data.contentid }}</p>
+            <p class="pb-3">콘텐츠타입ID : {{ data.contenttypeid }}</p>
+            <p class="pb-3">거리 : {{ data.dist }}</p>
+            <p class="pb-3">GPS 좌표 <span>{{ data.mapx }}</span>/<span>{{ data.mapy }}</span> </p>
+            <p class="pb-3">시군구 코드 {{ data.sigungucode }}</p>
+            <p class="pb-3">전화번호 : {{ data.tel }}</p>
+          </div>
+        </div>
+      </div>
     </div>
 
     <div v-if="this.selectAPI.api == 'searchKeyword1'">
-      <div>한글은 인코딩 필요</div>
-      <ul>
-        <li v-for="(data, index) in dataList" :key="index">
-          {{ data }}
-        </li>
-      </ul>
+      <div>한글 입력 가능(주소등은 검색 안되고 title을 검색하는 것을 보임)</div>
+      <div class="pb-24 basis-full flex flex-wrap gap-x-3.5">
+        <div v-for="data in dataList" :key="data" class="basis-full border rounded-md mb-20 relative flex flex-wrap items-center group">
+          <div class="basis-full md:basis-2/4 group-odd:order-1 md:group-odd:order-1 md:group-even:order-2">
+            <img :src="data.firstimage" :alt="data.title" class="w-full p-2.5 h-[350px]">
+          </div>
+          <div class="basis-full md:basis-2/4 md:group-even:left-14 md:group-odd:-left-14 group-odd:order-2 group-even:text-right group-even:order-1 relative z-10 px-7 sm:px-16 py-5 box-border">
+            <h3 class="py-5 font-bold">{{ data.title }}</h3>
+            <p class="pb-3">{{ data.addr1 }}<span>{{ data.addr2 }}</span></p>
+            <p class="pb-3">저작권 표시 : {{ data.cpyrhtDivCd == 'Type1' ? '제1유형(출처표시-권장)' : (data.cpyrhtDivCd == 'Type3' ? '제3유형(출처표시-권장+변경금지)' : '값 표시 없음') }}</p>
+            <p class="pb-3">콘텐츠ID : {{ data.contentid }}</p>
+            <p class="pb-3">콘텐츠타입ID : {{ data.contenttypeid }}</p>
+            <p class="pb-3">GPS 좌표 <span>{{ data.mapx }}</span>/<span>{{ data.mapy }}</span> </p>
+            <p class="pb-3">시군구 코드 {{ data.sigungucode }}</p>
+            <p class="pb-3">전화번호 : {{ data.tel }}</p>
+          </div>
+        </div>
+      </div>
     </div>
 
     <div v-if="this.selectAPI.api == 'searchFestival1'">
-      <ul>
-        <li v-for="(data, index) in dataList" :key="index">
-            <div>{{ data.title }}</div>
-            <img :src="data.firstimage" alt="">
-            <img :src="data.firstimage2" alt="">
-        </li>
-      </ul>
+      <div class="pb-24 basis-full flex flex-wrap gap-x-3.5">
+        <div v-for="data in dataList" :key="data" class="basis-full border rounded-md mb-20 relative flex flex-wrap items-center group">
+          <div class="basis-full md:basis-2/4 group-odd:order-1 md:group-odd:order-1 md:group-even:order-2">
+            <img :src="data.firstimage" :alt="data.title" class="w-full p-2.5 h-[350px]">
+          </div>
+          <div class="basis-full md:basis-2/4 md:group-even:left-14 md:group-odd:-left-14 group-odd:order-2 group-even:text-right group-even:order-1 relative z-10 px-7 sm:px-16 py-5 box-border">
+            <h3 class="py-5 font-bold">{{ data.title }}</h3>
+            <p class="pb-3">{{ data.addr1 }}<span>{{ data.addr2 }}</span></p>
+            <p><span>시작 날짜 {{ data.eventstartdate }}</span> <span>종료 날짜 {{ data.eventenddate }}</span></p>
+            <p class="pb-3">저작권 표시 : {{ data.cpyrhtDivCd == 'Type1' ? '제1유형(출처표시-권장)' : (data.cpyrhtDivCd == 'Type3' ? '제3유형(출처표시-권장+변경금지)' : '값 표시 없음') }}</p>
+            <p class="pb-3">콘텐츠ID : {{ data.contentid }}</p>
+            <p class="pb-3">콘텐츠타입ID : {{ data.contenttypeid }}</p>
+            <p class="pb-3">GPS 좌표 <span>{{ data.mapx }}</span>/<span>{{ data.mapy }}</span> </p>
+            <p class="pb-3">시군구 코드 {{ data.sigungucode }}</p>
+            <p class="pb-3">전화번호 : {{ data.tel }}</p>
+          </div>
+        </div>
+      </div>
     </div>
 
     <div v-if="this.selectAPI.api == 'searchStay1'">
@@ -155,8 +189,6 @@
         </li>
       </ul>
     </div>
-
-
   </div>
 </template>
 
@@ -165,6 +197,9 @@
 
   export default {
     name: 'KorService',
+    props: {
+      userLoc: Object
+    },
     data() {
       return {
         baseURL: 'https://apis.data.go.kr/B551011/KorService1/',
@@ -194,11 +229,11 @@
         arrange: 'A', // 정렬구분 (A=제목순, C=수정일순, D=생성일순) 대표이미지가반드시있는정렬(O=제목순, Q=수정일순, R=생성일순)
         contentTypeId: '12', // 관광타입(12:관광지, 14:문화시설, 15:축제공연행사, 25:여행코스, 28:레포츠, 32:숙박, 38:쇼핑, 39:음식점)
         /* 위치기반 관광정보조회 */
-        mapX: '126.981611', // GPS X좌표(WGS84 경도좌표)
-        mapY: '37.568477', // GPS X좌표(WGS84 위도좌표)
+        mapX: this.userLoc.loc, // GPS X좌표(WGS84 경도좌표)
+        mapY: this.userLoc.lat, // GPS X좌표(WGS84 위도좌표)
         radius: '1000', // 거리반경(단위:m) , Max값 20000m=20Km
         /* 키워드 검색 조회 */
-        keyword: 'play', // 검색요청할키워드 : (국문=인코딩필요)
+        keyword: '휴양', // 검색요청할키워드 : (국문=인코딩필요)
         areaCode: '', // 지역코드 (현재 사용 X 지역코드 외 시군구코드, 대중소분류 등 더욱 상세히 검색 조건 가능 사용확정 시 추가적으로 알아보기 필요)
         /* 행사정보조회 */
         eventStartDate: 20200101, // 행사시작일(형식 :YYYYMMDD) 필수
@@ -226,7 +261,7 @@
         if(this.selectAPI.api == 'locationBasedList1'){
           endpointGet = axios.get(`${this.baseURL}${api}?serviceKey=${this.serviceKey}&numOfRows=${this.numOfrows}&pageNo=${this.pageNo}&MobileOS=${this.Mobileos}&MobileApp=AppTest&_type=json&listYN=${this.listYN}&arrange=${this.arrange}&mapX=${this.mapX}&mapY=${this.mapY}&radius=${this.radius}&contentTypeId=${this.contentTypeId}`)
         } else if(this.selectAPI.api == 'searchKeyword1') {
-          endpointGet = axios.get(`${this.baseURL}${api}?serviceKey=${this.serviceKey}&numOfRows=${this.numOfrows}&pageNo=${this.pageNo}&MobileOS=${this.Mobileos}&MobileApp=AppTest&_type=json&listYN=${this.listYN}&arrange=${this.arrange}&contentTypeId=${this.contentTypeId}&keyword=${this.keyword}`)
+          endpointGet = axios.get(`${this.baseURL}${api}?serviceKey=${this.serviceKey}&numOfRows=${this.numOfrows}&pageNo=${this.pageNo}&MobileOS=${this.Mobileos}&MobileApp=AppTest&_type=json&listYN=${this.listYN}&arrange=${this.arrange}&contentTypeId=${this.contentTypeId}&keyword=${encodeURI(this.keyword)}`)
         } else if (this.selectAPI.api == 'searchFestival1') {
           endpointGet = axios.get(`${this.baseURL}${api}?serviceKey=${this.serviceKey}&numOfRows=${this.numOfrows}&pageNo=${this.pageNo}&MobileOS=${this.Mobileos}&MobileApp=AppTest&_type=json&listYN=${this.listYN}&arrange=${this.arrange}&eventStartDate=${this.eventStartDate}`)
         } else if (this.selectAPI.api == 'searchStay1') {
@@ -262,7 +297,7 @@
     },
     mounted() {
       // axios.
-      // get(`${this.baseURL}detailPetTour1?serviceKey=${this.serviceKey}&numOfRows=${this.numOfrows}&pageNo=${this.pageNo}&MobileOS=${this.Mobileos}&MobileApp=AppTest&_type=json`)
+      // get(`${this.baseURL}searchKeyword1?serviceKey=${this.serviceKey}&numOfRows=${this.numOfrows}&pageNo=${this.pageNo}&MobileOS=${this.Mobileos}&MobileApp=AppTest&_type=json&listYN=${this.listYN}&arrange=${this.arrange}&contentTypeId=${this.contentTypeId}&keyword=${encodeURI(this.keyword)}`)
       // .then(
       //   (res)=>{
       //     console.log(res)
