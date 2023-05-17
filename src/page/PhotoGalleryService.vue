@@ -18,39 +18,69 @@
 
     <h3>/{{ selectAPI.api }} : {{ selectAPI.desc }}</h3>
     <div v-if="selectAPIindex == 1">
-      <ul>
-        <li v-for="(data, index) in dataList" :key="index">
-         <div>{{ data.galTitle }}</div>
-          <img :src="data.galWebImageUrl" :alt="data.galTitle">
-        </li>
-      </ul>
+      <div class="pb-24 basis-full flex flex-wrap gap-x-3.5">
+        <div v-for="data in dataList" :key="data" class="basis-full border rounded-md mb-20 relative flex flex-wrap items-center group">
+          <div class="basis-full md:basis-2/4 group-odd:order-1 md:group-odd:order-1 md:group-even:order-2">
+            <img :src="data.galWebImageUrl" :alt="data.galTitle" class="w-full p-2.5 h-[350px]">
+          </div>
+          <div class="basis-full md:basis-2/4 md:group-even:left-14 md:group-odd:-left-14 group-odd:order-2 group-even:text-right group-even:order-1 relative z-10 px-7 sm:px-16 py-5 box-border">
+            <h3 class="py-5 font-bold">{{ data.galTitle }}</h3>
+            <p class="pb-3">사진사 : {{ data.galPhotographer }}</p>
+            <p class="pb-3">날짜 : {{ data.galPhotographyMonth }}</p>
+            <p class="pb-3">키워드 : {{ data.galSearchKeyword }}</p>
+          </div>
+        </div>
+      </div>
     </div>
 
 
     <div v-if="selectAPIindex == 2">
       <p>한글은 인코딩 필요 영어로 test 할만한거를 못찾음</p>
-      <ul>
-        <li v-for="(data, index) in dataList" :key="index">
-          <div>{{ data }}</div>
-        </li>
-      </ul>
+      <div class="pb-24 basis-full flex flex-wrap gap-x-3.5">
+        <div v-for="data in dataList" :key="data" class="basis-full border rounded-md mb-20 relative flex flex-wrap items-center group">
+          <div class="basis-full md:basis-2/4 group-odd:order-1 md:group-odd:order-1 md:group-even:order-2">
+            <img :src="data.galWebImageUrl" :alt="data.galTitle" class="w-full p-2.5 h-[350px]">
+          </div>
+          <div class="basis-full md:basis-2/4 md:group-even:left-14 md:group-odd:-left-14 group-odd:order-2 group-even:text-right group-even:order-1 relative z-10 px-7 sm:px-16 py-5 box-border">
+            <h3 class="py-5 font-bold">{{ data.galTitle }}</h3>
+            <p class="pb-3">사진사 : {{ data.galPhotographer }}</p>
+            <p class="pb-3">날짜 : {{ data.galPhotographyMonth }}</p>
+            <p class="pb-3">키워드 : {{ data.galSearchKeyword }}</p>
+          </div>
+        </div>
+      </div>
     </div>
 
     <div v-if="selectAPIindex == 3">
-      <ul>
-        <li v-for="(data, index) in dataList" :key="index">
-           <div>{{ data.galTitle }}</div>
-            <img :src="data.galWebImageUrl" :alt="data.galTitle">
-        </li>
-      </ul>
+       <div class="pb-24 basis-full flex flex-wrap gap-x-3.5">
+            <div v-for="data in dataList" :key="data" class="basis-full border rounded-md mb-20 relative flex flex-wrap items-center group">
+              <div class="basis-full md:basis-2/4 group-odd:order-1 md:group-odd:order-1 md:group-even:order-2">
+                <img :src="data.galWebImageUrl" :alt="data.galTitle" class="w-full p-2.5 h-[350px]">
+              </div>
+              <div class="basis-full md:basis-2/4 md:group-even:left-14 md:group-odd:-left-14 group-odd:order-2 group-even:text-right group-even:order-1 relative z-10 px-7 sm:px-16 py-5 box-border">
+                <h3 class="py-5 font-bold">{{ data.galTitle }}</h3>
+                <p class="pb-3">사진사 : {{ data.galPhotographer }}</p>
+                <p class="pb-3">날짜 : {{ data.galPhotographyMonth }}</p>
+                <p class="pb-3">키워드 : {{ data.galSearchKeyword }}</p>
+              </div>
+            </div>
+          </div>
     </div>
 
     <div v-if="selectAPIindex == 4">
-      <ul>
-        <li v-for="(data, index) in dataList" :key="index">
-       
-        </li>
-      </ul>
+       <div class="pb-24 basis-full flex flex-wrap gap-x-3.5">
+          <div v-for="data in dataList" :key="data" class="basis-full border rounded-md mb-20 relative flex flex-wrap items-center group">
+            <div class="basis-full md:basis-2/4 group-odd:order-1 md:group-odd:order-1 md:group-even:order-2">
+              <img :src="data.galWebImageUrl" :alt="data.galTitle" class="w-full p-2.5 h-[350px]">
+            </div>
+            <div class="basis-full md:basis-2/4 md:group-even:left-14 md:group-odd:-left-14 group-odd:order-2 group-even:text-right group-even:order-1 relative z-10 px-7 sm:px-16 py-5 box-border">
+              <h3 class="py-5 font-bold">{{ data.galTitle }}</h3>
+              <p class="pb-3">사진사 : {{ data.galPhotographer }}</p>
+              <p class="pb-3">날짜 : {{ data.galPhotographyMonth }}</p>
+              <p class="pb-3">키워드 : {{ data.galSearchKeyword }}</p>
+            </div>
+          </div>
+        </div>
     </div>
 
   </div>
@@ -78,9 +108,9 @@ export default {
       pageNo: 1, // 페이지 번호
       Mobileos: 'ETC', // OS 구분 : IOS (아이폰), AND (안드로이드), WIN (윈도우폰), ETC(기타)
       /* 관광사진갤러리 상세 목록 조회 */
-      title: 'hotel', // 요청 키워드(한글 경우, URL 인코딩 필요)
+      title: '홍보', // 요청 키워드(한글 경우, URL 인코딩 필요)
       /* 관광사진갤러리 키워드 검색 목록 조회 */
-      keyword: 'test' // 요청 키워드(한글 경우, URL 인코딩 필요)
+      keyword: '여수' // 요청 키워드(한글 경우, URL 인코딩 필요)
     }
   },
   methods: {
@@ -98,9 +128,9 @@ export default {
       if((this.selectAPI.api == 'galleryList1') || (this.selectAPI.api == 'gallerySyncDetailList1')) {
         endpointGet = axios.get(`${this.baseURL}${api}?serviceKey=${this.serviceKey}&numOfRows=${this.numOfrows}&pageNo=${this.pageNo}&MobileOS=${this.Mobileos}&MobileApp=AppTest&_type=json`)
       } else if (this.selectAPI.api == 'galleryDetailList1') {
-        endpointGet = axios.get(`${this.baseURL}${api}?serviceKey=${this.serviceKey}&numOfRows=${this.numOfrows}&pageNo=${this.pageNo}&MobileOS=${this.Mobileos}&MobileApp=AppTest&_type=json&title=${this.title}`)
+        endpointGet = axios.get(`${this.baseURL}${api}?serviceKey=${this.serviceKey}&numOfRows=${this.numOfrows}&pageNo=${this.pageNo}&MobileOS=${this.Mobileos}&MobileApp=AppTest&_type=json&title=${encodeURI(this.title)}`)
       } else if (this.selectAPI.api == 'gallerySearchList1') {
-        endpointGet = axios.get(`${this.baseURL}${api}?serviceKey=${this.serviceKey}&numOfRows=${this.numOfrows}&pageNo=${this.pageNo}&MobileOS=${this.Mobileos}&MobileApp=AppTest&_type=json&keyword=${this.keyword}`)
+        endpointGet = axios.get(`${this.baseURL}${api}?serviceKey=${this.serviceKey}&numOfRows=${this.numOfrows}&pageNo=${this.pageNo}&MobileOS=${this.Mobileos}&MobileApp=AppTest&_type=json&keyword=${encodeURI(this.keyword)}`)
       }
 
 

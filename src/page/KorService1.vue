@@ -63,7 +63,7 @@
           <label for="eventStartDate" class="btn-primary hover:bg-green-700">행사시작일 (YYYYMMDD)</label>
           <input v-model.number="eventStartDate" id="eventStartDate" type="text" class="mx-3 border rounded py-1 block">
         </div>
-      
+
         <div v-else-if="this.selectAPI.api == 'categoryCode1'" class="flex">
           <label for="cateType" class="btn-primary hover:bg-green-700">서비스 분류</label>
           <select v-model="cateType" id="cateType" class="mx-3 border rounded py-1">
@@ -76,7 +76,7 @@
             <option value="C01">추천코스</option>
           </select>
         </div>
-      
+
       </div>
 
       <!-- <div class="my-3 flex gap-3">
@@ -229,6 +229,8 @@
             <p class="pb-3">콘텐츠ID : {{ data.contentid }}</p>
             <p class="pb-3">콘텐츠타입ID : {{ data.contenttypeid }}</p>
             <p class="pb-3">전화번호 : {{ data.infocenter }}</p>
+            <div class="pb-3">주차 : <div v-html="data.parking"></div></div>
+            <p>{{ data.restdate }}</p>
           </div>
         </div>
       </div>
@@ -338,11 +340,11 @@
           { api: 'searchStay1', desc: '숙박정보조회' },
           { api: 'detailCommon1', desc: '공통정보조회' }, // contentId 필요
           { api: 'detailIntro1', desc: '소개정보조회' }, // contentId 필요
-          { api: 'detailInfo1', desc: '반복정보조회' }, // 생략
-          { api: 'detailImage1', desc: '이미지정보조회' }, // 생략
+          { api: 'detailInfo1', desc: '반복정보조회' },
+          { api: 'detailImage1', desc: '이미지정보조회' },
           { api: 'areaBasedSyncList1', desc: '관광정보 동기화 목록 조회' },
           { api: 'areaCode1', desc: '지역코드조회' }, // 상세 검색을 위해서 필요
-          { api: 'detailPetTour1', desc: '반려동물 동반 여행 정보' }, 
+          { api: 'detailPetTour1', desc: '반려동물 동반 여행 정보' },
           { api: 'categoryCode1', desc: '서비스분류코드' }, // 상세 검색을 위해서 필요
           { api: 'areaBasedList1', desc: '지역기반 관광정보조회' },
         ],
@@ -391,26 +393,26 @@
         this.dataList = []
       },
       fetchData() {
-        // 세부적으로 선택한 api 
+        // 세부적으로 선택한 api
         const api = this.selectAPI.api
 
         // 모든 api에 공통으로 들어가는 부분 수정할 필요없음
         const commonUrl = this.baseURL + api + '?serviceKey=' + this.serviceKey + '&MobileOS=' + this.Mobileos + '&MobileApp=AppTest&_type=json'
 
         // 세부 api별 필수 parameter
-        /* 사용된 api 
-        locationBasedList1  위치기반 관광정보조회 
+        /* 사용된 api
+        locationBasedList1  위치기반 관광정보조회
         */
         const UserParamLoc = '&mapX=' + this.mapX + '&mapY=' + this.mapY + '&radius=' + this.radius
-        /* 사용된 api 
+        /* 사용된 api
         searchKeyword1 키워드 검색 조회
         */
         const keywordInfo = '&keyword=' + encodeURI(this.keyword)
 
 
         // 세부 api별 옵션 parameter
-        /* 사용된 api 
-        locationBasedList1  위치기반 관광정보조회 
+        /* 사용된 api
+        locationBasedList1  위치기반 관광정보조회
         */
         const pageInfo = '&numOfRows=' + this.numOfrows + '&pageNo=' + this.pageNo
         const listInfo = '&listYN=' + this.listYN
@@ -418,8 +420,8 @@
         const contentTypeInfo = '&contentTypeId=' + this.contentTypeId
 
         /* 사용은 가능한데 현재 사용 X */
-        /* api 
-        locationBasedList1  위치기반 관광정보조회 
+        /* api
+        locationBasedList1  위치기반 관광정보조회
         */
         // const modifiedtimeInfo = '&modifiedtime=' + this.modifiedtime
 
@@ -429,32 +431,31 @@
           endpointGet = axios.get(commonUrl + pageInfo + listInfo + arrangeInfo + contentTypeInfo + UserParamLoc)
         } else if(this.selectAPI.api == 'searchKeyword1') {
           endpointGet = axios.get(commonUrl + pageInfo + listInfo + arrangeInfo + contentTypeInfo + keywordInfo)
-          // endpointGet = axios.get(`&keyword=${encodeURI(this.keyword)}`)
         } else if (this.selectAPI.api == 'searchFestival1') {
-          endpointGet = axios.get(`${this.baseURL}${api}?serviceKey=${this.serviceKey}&numOfRows=${this.numOfrows}&pageNo=${this.pageNo}&MobileOS=${this.Mobileos}&MobileApp=AppTest&_type=json&listYN=${this.listYN}&arrange=${this.arrange}&eventStartDate=${this.eventStartDate}`)
+          endpointGet = axios.get(commonUrl + pageInfo + listInfo + arrangeInfo + `&eventStartDate=${this.eventStartDate}`)
         } else if (this.selectAPI.api == 'searchStay1') {
-          endpointGet = axios.get(`${this.baseURL}${api}?serviceKey=${this.serviceKey}&numOfRows=${this.numOfrows}&pageNo=${this.pageNo}&MobileOS=${this.Mobileos}&MobileApp=AppTest&_type=json&listYN=${this.listYN}&arrange=${this.arrange}`)
+          endpointGet = axios.get(commonUrl + pageInfo + listInfo + arrangeInfo)
         } else if (this.selectAPI.api == 'detailCommon1') {
-          endpointGet = axios.get(`${this.baseURL}${api}?serviceKey=${this.serviceKey}&numOfRows=${this.numOfrows}&pageNo=${this.pageNo}&MobileOS=${this.Mobileos}&MobileApp=AppTest&_type=json&contentId=${this.contentId}&defaultYN=Y&firstImageYN=Y&areacodeYN=Y&catcodeYN=Y&addrinfoYN=Y&mapinfoYN=Y&overviewYN=Y`)
+          endpointGet = axios.get(commonUrl + pageInfo + contentTypeInfo + `&contentId=${this.contentId}&defaultYN=Y&firstImageYN=Y&areacodeYN=Y&catcodeYN=Y&addrinfoYN=Y&mapinfoYN=Y&overviewYN=Y`)
         } else if (this.selectAPI.api == 'detailIntro1') {
-          endpointGet = axios.get(`${this.baseURL}${api}?serviceKey=${this.serviceKey}&numOfRows=${this.numOfrows}&pageNo=${this.pageNo}&MobileOS=${this.Mobileos}&MobileApp=AppTest&_type=json&contentId=${this.contentId}&contentTypeId=${this.contentTypeid}`)
+          endpointGet = axios.get(commonUrl + pageInfo + contentTypeInfo + `&contentId=${this.contentId}`)
         } else if (this.selectAPI.api == 'detailInfo1') {
-          endpointGet = axios.get(`${this.baseURL}${api}?serviceKey=${this.serviceKey}&numOfRows=${this.numOfrows}&pageNo=${this.pageNo}&MobileOS=${this.Mobileos}&MobileApp=AppTest&_type=json&contentId=${this.contentId}&contentTypeId=${this.contentTypeid}`)
+          endpointGet = axios.get(commonUrl + pageInfo + contentTypeInfo + `&contentId=${this.contentId}`)
         } else if (this.selectAPI.api == 'detailImage1') {
-          endpointGet = axios.get(`${this.baseURL}${api}?serviceKey=${this.serviceKey}&numOfRows=${this.numOfrows}&pageNo=${this.pageNo}&MobileOS=${this.Mobileos}&MobileApp=AppTest&_type=json&contentId=${this.contentId}&imageYN=Y&subImageYN=Y`)
+          endpointGet = axios.get(commonUrl + pageInfo + `&contentId=${this.contentId}` + `&imageYN=Y&subImageYN=Y`)
         } else if (this.selectAPI.api == 'areaBasedSyncList1') {
-          endpointGet = axios.get(`${this.baseURL}${api}?serviceKey=${this.serviceKey}&numOfRows=${this.numOfrows}&pageNo=${this.pageNo}&MobileOS=${this.Mobileos}&MobileApp=AppTest&_type=json&showflag=1&areaCode=${this.areaCode}`)
+          endpointGet = axios.get(commonUrl + pageInfo + `&showflag=1&areaCode=${this.areaCode}`)
         } else if (this.selectAPI.api == 'areaCode1') {
-          endpointGet = axios.get(`${this.baseURL}${api}?serviceKey=${this.serviceKey}&numOfRows=${this.numOfrows}&pageNo=${this.pageNo}&MobileOS=${this.Mobileos}&MobileApp=AppTest&_type=json&areaCode=1`)
+          endpointGet = axios.get(commonUrl + pageInfo + `&areaCode=${this.areaCode}`)
         } else if (this.selectAPI.api == 'categoryCode1') {
-          endpointGet = axios.get(`${this.baseURL}${api}?serviceKey=${this.serviceKey}&numOfRows=${this.numOfrows}&pageNo=${this.pageNo}&MobileOS=${this.Mobileos}&MobileApp=AppTest&_type=json&cat1=${this.cateType}&contentTypeId=${this.contentTypeId}`)
+          endpointGet = axios.get(commonUrl + pageInfo + `&cat1=${this.cateType}&contentTypeId=${this.contentTypeId}`)
         } else if ((this.selectAPI.api == 'detailPetTour1') || (this.selectAPI.api == 'areaBasedList1')) {
-          endpointGet = axios.get(`${this.baseURL}${api}?serviceKey=${this.serviceKey}&numOfRows=${this.numOfrows}&pageNo=${this.pageNo}&MobileOS=${this.Mobileos}&MobileApp=AppTest&_type=json`)
+          endpointGet = axios.get(commonUrl + pageInfo)
         }
 
         console.log('api', this.selectAPI.api)
 
-        if((this.selectAPI.api == null)) { 
+        if((this.selectAPI.api == null)) {
           console.log('api가 없다고 함')
           return false
         } else {

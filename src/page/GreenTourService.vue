@@ -18,20 +18,44 @@
 
     <h3>/{{ selectAPI.api }} : {{ selectAPI.desc }}</h3>
     <div v-if="selectAPIindex == 1">
-      <ul>
-        <li v-for="(data, index) in dataList" :key="index">
-          <div>{{ data }}</div>
-        </li>
-      </ul>
+      <div class="pb-24 basis-full flex flex-wrap gap-x-3.5">
+        <div v-for="data in dataList" :key="data" class="basis-full border rounded-md mb-20 relative flex flex-wrap items-center group">
+          <div class="basis-full md:basis-2/4 group-odd:order-1 md:group-odd:order-1 md:group-even:order-2">
+            <img :src="data.mainimage" :alt="data.title" class="w-full p-2.5 h-[350px]">
+          </div>
+          <div class="basis-full md:basis-2/4 md:group-even:left-14 md:group-odd:-left-14 group-odd:order-2 group-even:text-right group-even:order-1 relative z-10 px-7 sm:px-16 py-5 box-border">
+            <h3 class="py-5 font-bold">{{ data.title }}</h3>
+            <p class="pb-3">{{ data.addr }}</p>
+            <p class="pb-3">저작권 표시 : {{ data.cpyrhtDivCd == 'Type1' ? '제1유형(출처표시-권장)' : (data.cpyrhtDivCd == 'Type3' ? '제3유형(출처표시-권장+변경금지)' : '값 표시 없음') }}</p>
+            <p class="pb-3">콘텐츠ID : {{ data.contentid }}</p>
+            <p class="pb-3">콘텐츠타입ID : {{ data.contenttypeid }}</p>
+            <p class="pb-3">시군구 코드 {{ data.sigungucode }}</p>
+            <p class="pb-3">전화번호 : {{ data.tel }}</p>
+            <p class="pb-3" v-html="data.summary"></p>
+          </div>
+        </div>
+      </div>
     </div>
 
 
     <div v-if="selectAPIindex == 2">
-      <ul>
-        <li v-for="(data, index) in dataList" :key="index">
-          <div>{{ data }}</div>
-        </li>
-      </ul>
+       <div class="pb-24 basis-full flex flex-wrap gap-x-3.5">
+          <div v-for="data in dataList" :key="data" class="basis-full border rounded-md mb-20 relative flex flex-wrap items-center group">
+            <div class="basis-full md:basis-2/4 group-odd:order-1 md:group-odd:order-1 md:group-even:order-2">
+              <img :src="data.mainimage" :alt="data.title" class="w-full p-2.5 h-[350px]">
+            </div>
+            <div class="basis-full md:basis-2/4 md:group-even:left-14 md:group-odd:-left-14 group-odd:order-2 group-even:text-right group-even:order-1 relative z-10 px-7 sm:px-16 py-5 box-border">
+              <h3 class="py-5 font-bold">{{ data.title }}</h3>
+              <p class="pb-3">{{ data.addr }}</p>
+              <p class="pb-3">저작권 표시 : {{ data.cpyrhtDivCd == 'Type1' ? '제1유형(출처표시-권장)' : (data.cpyrhtDivCd == 'Type3' ? '제3유형(출처표시-권장+변경금지)' : '값 표시 없음') }}</p>
+              <p class="pb-3">콘텐츠ID : {{ data.contentid }}</p>
+              <p class="pb-3">콘텐츠타입ID : {{ data.contenttypeid }}</p>
+              <p class="pb-3">시군구 코드 {{ data.sigungucode }}</p>
+              <p class="pb-3">전화번호 : {{ data.tel }}</p>
+              <p class="pb-3" v-html="data.summary"></p>
+            </div>
+          </div>
+        </div>
     </div>
 
     <div v-if="selectAPIindex == 3">

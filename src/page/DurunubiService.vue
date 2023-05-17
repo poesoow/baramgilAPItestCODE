@@ -17,18 +17,26 @@
 
       <h3>/{{ selectAPI.api }} : {{ selectAPI.desc }}</h3>
       <div v-if="selectAPIindex == 1">
-        <ul>
-          <li v-for="(data, index) in dataList" :key="index">
-            <div>{{ data }}</div>
+        <div>gpx 파일로 되어있어서 좀 더 찾아봐야 할 거 같음</div>
+        <ul class="flex flex-wrap gap-x-3.5">
+          <li v-for="(data, index) in dataList" :key="index" class="basis-full border rounded-md mb-20 relative flex flex-wrap items-center">
+            <h3 class="my-3">{{ data.crsKorNm }}</h3>
+            <p class="mb-3">{{ data.crsCycle }}</p>
+            <p class="mb-3" v-html="data.crsContents"></p>
+            <p class="mb-3" v-html="data.crsTourInfo"></p>
+            <p class="mb-3"> 경로 파일 {{ data.gpxpath }}</p>
+            <p class="mb-3">{{ data.travelerinfo }}</p>
           </li>
         </ul>
       </div>
 
 
       <div v-if="selectAPIindex == 2">
-        <ul>
-          <li v-for="(data, index) in dataList" :key="index">
-            <div>{{ data }}</div>
+       <ul class="flex flex-wrap gap-x-3.5">
+          <li v-for="(data, index) in dataList" :key="index" class="basis-full border rounded-md mb-20 relative flex flex-wrap items-center">
+            <h3 class="my-3">{{ data.themeNm }}</h3>
+            <p class="mb-3">{{ data.linemsg }}</p>
+            <p class="mb-3" v-html="data.themedescs"></p>
           </li>
         </ul>
       </div>

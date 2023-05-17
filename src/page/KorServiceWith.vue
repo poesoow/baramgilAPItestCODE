@@ -3,7 +3,7 @@
 
     <h2 class="text-3xl">한국관광공사_무장애 여행 정보_GW<a class="text-base"
         href="https://www.data.go.kr/tcs/dss/selectApiDataDetailView.do?publicDataPk=15101897">링크</a>
-        <p class="my-2 text-base">국민복지관광 서비스(취학계층의 장애요인 해소) -장애인,어르신,영유아를 동반한 여행의 어려움 해소를 위한 관광정보 제공 서비스 국민복지관광 서비스(취학계층의 장애요인 해소) -장애인,어르신,영유아를 동반한 여행의 어려움 해소를 위한 관광정보 제공 서비스</p>
+        <p class="my-2 text-sm">국민복지관광 서비스(취학계층의 장애요인 해소) -장애인,어르신,영유아를 동반한 여행의 어려움 해소를 위한 관광정보 제공 서비스 국민복지관광 서비스(취학계층의 장애요인 해소) -장애인,어르신,영유아를 동반한 여행의 어려움 해소를 위한 관광정보 제공 서비스</p>
     </h2>
     <!-- URL 선택 -->
     <h3 class="my-3">
@@ -77,81 +77,135 @@
 
     <h3>/{{ selectAPI.api }} : {{ selectAPI.desc }}</h3>
     <div v-if="this.selectAPI.api == 'locationBasedList1'">
-      <ul>
-        <li v-for="(data, index) in dataList" :key="index">
-          <div>{{ data.title }}</div>
-          <img :src="data.firstimage" alt="">
-          <img :src="data.firstimage2" alt="">
-        </li>
-      </ul>
+      <div class="pb-24 basis-full flex flex-wrap gap-x-3.5">
+          <div v-for="data in dataList" :key="data" class="basis-full border rounded-md mb-20 relative flex flex-wrap items-center group">
+            <div class="basis-full md:basis-2/4 group-odd:order-1 md:group-odd:order-1 md:group-even:order-2">
+              <img :src="data.firstimage" :alt="data.title" class="w-full p-2.5 h-[350px]">
+            </div>
+            <div class="basis-full md:basis-2/4 md:group-even:left-14 md:group-odd:-left-14 group-odd:order-2 group-even:text-right group-even:order-1 relative z-10 px-7 sm:px-16 py-5 box-border">
+              <h3 class="py-5 font-bold">{{ data.title }}</h3>
+              <p class="pb-3">{{ data.addr1 }}<span>{{ data.addr2 }}</span></p>
+              <p class="pb-3">저작권 표시 : {{ data.cpyrhtDivCd == 'Type1' ? '제1유형(출처표시-권장)' : (data.cpyrhtDivCd == 'Type3' ? '제3유형(출처표시-권장+변경금지)' : '값 표시 없음') }}</p>
+              <p class="pb-3">콘텐츠ID : {{ data.contentid }}</p>
+              <p class="pb-3">콘텐츠타입ID : {{ data.contenttypeid }}</p>
+              <p class="pb-3">거리 : {{ data.dist }}</p>
+              <p class="pb-3">GPS 좌표 <span>{{ data.mapx }}</span>/<span>{{ data.mapy }}</span> </p>
+              <p class="pb-3">시군구 코드 {{ data.sigungucode }}</p>
+              <p class="pb-3">전화번호 : {{ data.tel }}</p>
+            </div>
+          </div>
+        </div>
     </div>
 
     <div v-if="this.selectAPI.api == 'searchKeyword1'">
       <div>한글은 인코딩 필요</div>
-      <ul>
-        <li v-for="(data, index) in dataList" :key="index">
-          {{ data }}
-        </li>
-      </ul>
-    </div>
-
-    <div v-if="this.selectAPI.api == 'searchFestival1'">
-      <ul>
-        <li v-for="(data, index) in dataList" :key="index">
-          <div>{{ data.title }}</div>
-          <img :src="data.firstimage" alt="">
-          <img :src="data.firstimage2" alt="">
-        </li>
-      </ul>
-    </div>
-
-    <div v-if="this.selectAPI.api == 'searchStay1'">
-      <ul>
-        <li v-for="(data, index) in dataList" :key="index">
-          <div>{{ data.title }}</div>
-          <img :src="data.firstimage" alt="">
-          <img :src="data.firstimage2" alt="">
-        </li>
-      </ul>
+      <div class="pb-24 basis-full flex flex-wrap gap-x-3.5">
+          <div v-for="data in dataList" :key="data" class="basis-full border rounded-md mb-20 relative flex flex-wrap items-center group">
+            <div class="basis-full md:basis-2/4 group-odd:order-1 md:group-odd:order-1 md:group-even:order-2">
+              <img :src="data.firstimage" :alt="data.title" class="w-full p-2.5 h-[350px]">
+            </div>
+            <div class="basis-full md:basis-2/4 md:group-even:left-14 md:group-odd:-left-14 group-odd:order-2 group-even:text-right group-even:order-1 relative z-10 px-7 sm:px-16 py-5 box-border">
+              <h3 class="py-5 font-bold">{{ data.title }}</h3>
+              <p class="pb-3">{{ data.addr1 }}<span>{{ data.addr2 }}</span></p>
+              <p class="pb-3">저작권 표시 : {{ data.cpyrhtDivCd == 'Type1' ? '제1유형(출처표시-권장)' : (data.cpyrhtDivCd == 'Type3' ? '제3유형(출처표시-권장+변경금지)' : '값 표시 없음') }}</p>
+              <p class="pb-3">콘텐츠ID : {{ data.contentid }}</p>
+              <p class="pb-3">콘텐츠타입ID : {{ data.contenttypeid }}</p>
+              <p class="pb-3">GPS 좌표 <span>{{ data.mapx }}</span>/<span>{{ data.mapy }}</span> </p>
+              <p class="pb-3">시군구 코드 {{ data.sigungucode }}</p>
+              <p class="pb-3">전화번호 : {{ data.tel }}</p>
+            </div>
+          </div>
+        </div>
     </div>
 
     <div v-if="this.selectAPI.api == 'detailCommon1'">
       타입별공통 정보기본정보,약도이미지,대표이미지,분류정보,지역정보,주소정보,좌표정보,개요정보,길안내정보,이미지정보,연계관광정보목록을 조회하는 기능 <br>
       이라고 하는데 정확한 사용법은 더 찾아봐야 알거 같음
-      <ul>
-        <li v-for="(data, index) in dataList" :key="index">
-          {{ data }}
-        </li>
-      </ul>
+      <div class="pb-24 basis-full flex flex-wrap gap-x-3.5">
+        <div v-for="data in dataList" :key="data" class="basis-full border rounded-md mb-20 relative flex flex-wrap items-center group">
+          <div class="basis-full md:basis-2/4 group-odd:order-1 md:group-odd:order-1 md:group-even:order-2">
+            <img :src="data.firstimage" :alt="data.title" class="w-full p-2.5 h-[350px]">
+          </div>
+            <div class="basis-full md:basis-2/4 md:group-even:left-14 md:group-odd:-left-14 group-odd:order-2 group-even:text-right group-even:order-1 relative z-10 px-7 sm:px-16 py-5 box-border">
+            <h3 class="py-5 font-bold">{{ data.title }}</h3>
+            <p class="pb-3">{{ data.addr1 }}<span>{{ data.addr2 }}</span></p>
+            <p class="pb-3">저작권 표시 : {{ data.cpyrhtDivCd == 'Type1' ? '제1유형(출처표시-권장)' : (data.cpyrhtDivCd == 'Type3' ? '제3유형(출처표시-권장+변경금지)' : '값 표시 없음') }}</p>
+            <p class="pb-3">콘텐츠ID : {{ data.contentid }}</p>
+            <p class="pb-3">콘텐츠타입ID : {{ data.contenttypeid }}</p>
+            <p class="pb-3">GPS 좌표 <span>{{ data.mapx }}</span>/<span>{{ data.mapy }}</span> </p>
+            <p class="pb-3">시군구 코드 {{ data.sigungucode }}</p>
+            <p class="pb-3">지역 코드 {{ data.areacode }}</p>
+            <p class="pb-3">전화번호 : {{ data.tel }}</p>
+            <p class="pb-3" v-html="data.homepage"></p>
+            <p class="pb-3" v-html="data.overview"></p>
+          </div>
+        </div>
+      </div>
     </div>
 
     <div v-if="this.selectAPI.api == 'detailIntro1'">
-      <ul>
-        <li v-for="(data, index) in dataList" :key="index">
-          {{ data }}
-        </li>
-      </ul>
+      <div class="pb-24 basis-full flex flex-wrap gap-x-3.5">
+        <div v-for="data in dataList" :key="data" class="basis-full border rounded-md mb-20 relative flex flex-wrap items-center group">
+          <div class="basis-full md:basis-2/4 md:group-even:left-14 md:group-odd:-left-14 group-odd:order-2 group-even:text-right group-even:order-1 relative z-10 px-7 sm:px-16 py-5 box-border">
+            <h3 class="py-5 font-bold">{{ data.title }}</h3>
+            <p class="pb-3">콘텐츠ID : {{ data.contentid }}</p>
+            <p class="pb-3">콘텐츠타입ID : {{ data.contenttypeid }}</p>
+            <p class="pb-3">전화번호 : {{ data.infocenter }}</p>
+            <div class="pb-3">주차 : <div v-html="data.parking"></div></div>
+            <p>{{ data.restdate }}</p>
+          </div>
+        </div>
+      </div>
     </div>
 
     <div v-if="this.selectAPI.api == 'detailInfo1'">
-      생략
+      <div>선택한 데이터안에 반복되는 정보가 있는 경우 사용 </div>
+      <div class="pb-24 basis-full flex flex-wrap gap-x-3.5">
+        <div v-for="data in dataList" :key="data" class="basis-full border rounded-md mb-20 relative flex flex-wrap items-center">
+          <div class="basis-full md:basis-2/4 relative z-10 px-7 sm:px-16 py-5 box-border">
+          <h3 class="py-5 font-bold">{{ data.infoname }}</h3>
+          <p class="pb-3" v-html="data.infotext"></p>
+          </div>
+        </div>
+      </div>
     </div>
 
-    <div v-if="this.selectAPI.api == 'detailImage1'">
-      생략
-    </div>
-
-    <div v-if="this.selectAPI.api == 'areaBasedSyncList1'">
-      <ul>
-        <li v-for="(data, index) in dataList" :key="index">
-          {{ data }}
-          <img :src="data.firstimage" alt="">
-        </li>
-      </ul>
+   <div v-if="this.selectAPI.api == 'detailImage1'">
+      <div class="pb-24 basis-full flex flex-wrap gap-x-3.5">
+        <div v-for="data in dataList" :key="data" class="basis-full border rounded-md mb-20 relative flex flex-wrap items-center group">
+          <div class="basis-full md:basis-2/4 group-odd:order-1 md:group-odd:order-1 md:group-even:order-2">
+            <img :src="data.originimgurl" :alt="data.title" class="w-full p-2.5 h-[350px]">
+          </div>
+            <div class="basis-full md:basis-2/4 md:group-even:left-14 md:group-odd:-left-14 group-odd:order-2 group-even:text-right group-even:order-1 relative z-10 px-7 sm:px-16 py-5 box-border">
+            <h3 class="py-5 font-bold">{{ data.imgname }}</h3>
+          </div>
+        </div>
+      </div>
     </div>
 
     <div
-      v-if="(this.selectAPI.api == 'areaCode1') || (this.selectAPI.api == 'detailPetTour1') || (this.selectAPI.api == 'categoryCode1') || (this.selectAPI.api == 'areaBasedList1')">
+      v-if="(this.selectAPI.api == 'areaBasedList1') || (this.selectAPI.api == 'areaBasedSyncList1')">
+      <div class="pb-24 basis-full flex flex-wrap gap-x-3.5">
+          <div v-for="data in dataList" :key="data" class="basis-full border rounded-md mb-20 relative flex flex-wrap items-center group">
+            <div class="basis-full md:basis-2/4 group-odd:order-1 md:group-odd:order-1 md:group-even:order-2">
+              <img :src="data.firstimage" :alt="data.title" class="w-full p-2.5 h-[350px]">
+            </div>
+            <div class="basis-full md:basis-2/4 md:group-even:left-14 md:group-odd:-left-14 group-odd:order-2 group-even:text-right group-even:order-1 relative z-10 px-7 sm:px-16 py-5 box-border">
+              <h3 class="py-5 font-bold">{{ data.title }}</h3>
+              <p class="pb-3">{{ data.addr1 }}<span>{{ data.addr2 }}</span></p>
+              <p class="pb-3">저작권 표시 : {{ data.cpyrhtDivCd == 'Type1' ? '제1유형(출처표시-권장)' : (data.cpyrhtDivCd == 'Type3' ? '제3유형(출처표시-권장+변경금지)' : '값 표시 없음') }}</p>
+              <p class="pb-3">콘텐츠ID : {{ data.contentid }}</p>
+              <p class="pb-3">콘텐츠타입ID : {{ data.contenttypeid }}</p>
+              <p class="pb-3">GPS 좌표 <span>{{ data.mapx }}</span>/<span>{{ data.mapy }}</span> </p>
+              <p class="pb-3">시군구 코드 {{ data.sigungucode }}</p>
+              <p class="pb-3">전화번호 : {{ data.tel }}</p>
+            </div>
+          </div>
+        </div>
+    </div>
+
+     <div v-if="(this.selectAPI.api == 'categoryCode1')">
+      <div>코드를 기본값은 00시에 대한 코드 현재는 서울시에 대한 구코드</div>
       <ul>
         <li v-for="(data, index) in dataList" :key="index">
           {{ data }}
@@ -159,12 +213,49 @@
       </ul>
     </div>
 
-    <div v-if="this.selectAPI.api == 'detailWithTour1'">
+     <div v-if="(this.selectAPI.api == 'areaCode1')">
+      <div>코드를 기본값은 00시에 대한 코드 현재는 서울시에 대한 구코드</div>
       <ul>
         <li v-for="(data, index) in dataList" :key="index">
           {{ data }}
         </li>
       </ul>
+    </div>
+
+
+
+
+    <div v-if="this.selectAPI.api == 'detailPetTour1'">
+      <div>콘텐츠 아이디 하나만 입력시 해당 정보에 대해서만 기본값은 전체</div>
+      <div class="pb-24 basis-full flex flex-wrap gap-x-3.5">
+        <div v-for="data in dataList" :key="data" class="basis-full border rounded-md mb-20 relative flex flex-wrap items-center">
+          <div class="basis-full md:basis-2/4 relative z-10 px-7 sm:px-16 py-5 box-border">
+            <p class="pb-3">콘텐츠ID : {{ data.contentid }}</p>
+            <p class="pb-3">{{ data.acmpyNeedMtr }}</p>
+            <p class="pb-3">{{ data.acmpyTypeCd }}</p>
+            <p class="pb-3">{{ data.etcAcmpyInfo }}</p>
+            <p class="pb-3">{{ data.relaFrnshPrdlst }}</p>
+            <p class="pb-3">{{ data.relaPosesFclty }}</p>
+            <p class="pb-3">{{ data.acmpyPsblCpam }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div v-if="this.selectAPI.api == 'detailWithTour1'">
+      <div class="pb-24 basis-full flex flex-wrap gap-x-3.5">
+        <div v-for="data in dataList" :key="data" class="basis-full border rounded-md mb-20 relative flex flex-wrap items-center">
+          <div class="basis-full md:basis-2/4 relative z-10 px-7 sm:px-16 py-5 box-border">
+            <p class="pb-3">{{ data.infantsfamilyetc }}</p>
+            <p class="pb-3">{{ data.parking }}</p>
+            <p class="pb-3">{{ data.publictransport }}</p>
+            <p class="pb-3">{{ data.restroom }}</p>
+            <p class="pb-3">{{ data.room }}</p>
+            <p class="pb-3">{{ data.wheelchair }}</p>
+            <p class="pb-3">{{ data.audioguide }}</p>
+          </div>
+        </div>
+      </div>
     </div>
 
 
@@ -213,7 +304,7 @@ export default {
       eventStartDate: 20200101, // 행사시작일(형식 :YYYYMMDD) 필수
       eventEndDate: '', // 행사종료일(형식 :YYYYMMDD)
       /* 공통정보조회 */
-      contentId: '1604784', // 콘텐츠 아이디
+      contentId: '126133', // 콘텐츠 아이디
       defaultYN: 'N', // 기본정보조회여부( Y,N )
       firstImageYN: 'Y', // 원본, 썸네일대표 이미지, 이미지 공공누리유형정보 조회여부( Y,N )
       /* 소개정보조회 */
@@ -241,13 +332,14 @@ export default {
       } else if (this.selectAPI.api == 'searchStay1') {
         endpointGet = axios.get(`${this.baseURL}${api}?serviceKey=${this.serviceKey}&numOfRows=${this.numOfrows}&pageNo=${this.pageNo}&MobileOS=${this.Mobileos}&MobileApp=AppTest&_type=json&listYN=${this.listYN}&arrange=${this.arrange}`)
       } else if (this.selectAPI.api == 'detailCommon1') {
-        endpointGet = axios.get(`${this.baseURL}${api}?serviceKey=${this.serviceKey}&numOfRows=${this.numOfrows}&pageNo=${this.pageNo}&MobileOS=${this.Mobileos}&MobileApp=AppTest&_type=json&contentId=${this.contentId}`)
+        endpointGet = axios.get(`${this.baseURL}${api}?serviceKey=${this.serviceKey}&numOfRows=${this.numOfrows}&pageNo=${this.pageNo}&MobileOS=${this.Mobileos}&MobileApp=AppTest&_type=json&contentId=${this.contentId}&defaultYN=Y&firstImageYN=Y&areacodeYN=Y&catcodeYN=Y&addrinfoYN=Y&mapinfoYN=Y&overviewYN=Y`)
       } else if (this.selectAPI.api == 'detailIntro1') {
         endpointGet = axios.get(`${this.baseURL}${api}?serviceKey=${this.serviceKey}&numOfRows=${this.numOfrows}&pageNo=${this.pageNo}&MobileOS=${this.Mobileos}&MobileApp=AppTest&_type=json&contentId=${this.contentId}&contentTypeId=${this.contentTypeid}`)
       } else if (this.selectAPI.api == 'detailInfo1') {
-        console.log('생략')
+        endpointGet = axios.get(`${this.baseURL}${api}?serviceKey=${this.serviceKey}&numOfRows=${this.numOfrows}&pageNo=${this.pageNo}&MobileOS=${this.Mobileos}&MobileApp=AppTest&_type=json&contentId=${this.contentId}&contentTypeId=${this.contentTypeid}`)
       } else if (this.selectAPI.api == 'detailImage1') {
-        console.log('생략')
+        endpointGet = axios.get(`${this.baseURL}${api}?serviceKey=${this.serviceKey}&numOfRows=${this.numOfrows}&pageNo=${this.pageNo}&MobileOS=${this.Mobileos}&MobileApp=AppTest&_type=json&contentId=${this.contentId}&imageYN=Y&subImageYN=Y`)
+        console.log(`${this.baseURL}${api}?serviceKey=${this.serviceKey}&numOfRows=${this.numOfrows}&pageNo=${this.pageNo}&MobileOS=${this.Mobileos}&MobileApp=AppTest&_type=json&contentId=${this.contentId}&imageYN=Y&subImageYN=Y`)
       } else if ((this.selectAPI.api == 'areaBasedSyncList1') || (this.selectAPI.api == 'areaCode1') || (this.selectAPI.api == 'detailPetTour1') || (this.selectAPI.api == 'categoryCode1') || (this.selectAPI.api == 'areaBasedList1')) {
         endpointGet = axios.get(`${this.baseURL}${api}?serviceKey=${this.serviceKey}&numOfRows=${this.numOfrows}&pageNo=${this.pageNo}&MobileOS=${this.Mobileos}&MobileApp=AppTest&_type=json`)
       } else if (this.selectAPI.api == 'detailWithTour1') {
@@ -257,9 +349,7 @@ export default {
 
       console.log('api', this.selectAPI.api)
 
-      if ((this.selectAPI.api == 'detailInfo1') || (this.selectAPI.api == 'detailImage1')) {
-        return false
-      } else {
+
         endpointGet.then(
           (res) => {
             console.log(res.data.response.body)
@@ -268,7 +358,6 @@ export default {
         ).catch((err) => {
           console.log(err)
         })
-      }
     }
   },
   mounted() {

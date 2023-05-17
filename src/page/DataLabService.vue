@@ -18,19 +18,28 @@
       <hr>
 
       <h3>/{{ selectAPI.api }} : {{ selectAPI.desc }}</h3>
+      <div>만약 활용 시 axios로 받아올 때 각 시도별로 새로운 배열을 만들어야 활용하기 용이해 보임</div>
+
       <div v-if="selectAPIindex == 1">
         <ul>
           <li v-for="(data, index) in dataList" :key="index">
-            <div>{{ data }}</div>
+            <h3 class="my-3">{{ data.areaNm }}</h3>
+            <p class="mb-3">{{ data.touDivNm }} : {{ data.touNum }}</p>
+            <p class="mb-3">기준날짜 {{ data.baseYmd }}</p>
+            <p class="mb-3">기준날짜 {{ data.daywkDivNm }}</p>
+
           </li>
         </ul>
       </div>
 
 
       <div v-if="selectAPIindex == 2">
-        <ul>
+         <ul>
           <li v-for="(data, index) in dataList" :key="index">
-            <div>{{ data }}</div>
+            <h3 class="my-3">{{ data.signguNm }}</h3>
+            <p class="mb-3">{{ data.touDivNm }} : {{ data.touNum }}</p>
+            <p class="mb-3">기준날짜 {{ data.baseYmd }}</p>
+            <p class="mb-3">기준날짜 {{ data.daywkDivNm }}</p>
           </li>
         </ul>
       </div>
@@ -47,7 +56,7 @@
       return {
         baseURL: 'https://apis.data.go.kr/B551011/DataLabService/',
         apiLists: [
-          { api: 'metcoRegnVisitrDDList', desc: '광역 지자체 지역방문자수 집계 데이터 정보 조회' }, 
+          { api: 'metcoRegnVisitrDDList', desc: '광역 지자체 지역방문자수 집계 데이터 정보 조회' },
           { api: 'locgoRegnVisitrDDList', desc: '기초 지자체 지역방문자수 집계 데이터 정보 조회' },
         ],
         selectAPIindex: 0,
@@ -78,7 +87,7 @@
 
         console.log('index', this.selectAPIindex)
 
-      
+
           endpointGet.then(
             (res) => {
               console.log(res.data.response.body)
