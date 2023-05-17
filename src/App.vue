@@ -9,12 +9,13 @@
       </li>
     </ul>
    
-    <router-view :userLoc="userLoc"></router-view>
+    <router-view :userLoc="userLoc" :paramData="paramData"></router-view>
 
   </div>
 </template>
 
 <script>
+import paramData from '@/assets/parameter.json'
 
 export default {
   name: 'App',
@@ -28,8 +29,9 @@ export default {
         {url: 'greentour', desc: '생태 관광 정보'}, 
         {url: 'photogallery', desc: '관광 사진 정보'}
       ],
-      select: 0, 
+      select: null, 
       userLoc: {},
+      paramData: paramData
     }
   },
   methods: {
