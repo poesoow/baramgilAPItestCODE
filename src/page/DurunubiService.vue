@@ -24,7 +24,7 @@
             <p class="mb-3">{{ data.crsCycle }}</p>
             <p class="mb-3" v-html="data.crsContents"></p>
             <p class="mb-3" v-html="data.crsTourInfo"></p>
-            <p class="mb-3"> 경로 파일 {{ data.gpxpath }}</p>
+            <p class="mb-3"> 경로 파일 {{ gpx(data.gpxpath) }}</p>
             <p class="mb-3">{{ data.travelerinfo }}</p>
           </li>
         </ul>

@@ -323,6 +323,7 @@
 
 <script>
   import axios from 'axios'
+  
 
   export default {
     name: 'KorService',
@@ -361,7 +362,7 @@
         Mobileos: 'ETC', // OS 구분 : IOS (아이폰), AND (안드로이드), WIN (윈도우폰), ETC(기타)
         listYN: 'Y', // 목록구분(Y=목록, N=개수)
         arrange: 'A', // 정렬구분 (A=제목순, C=수정일순, D=생성일순) 대표이미지가반드시있는정렬(O=제목순, Q=수정일순, R=생성일순)
-        contentTypeId: '12', // 관광타입(12:관광지, 14:문화시설, 15:축제공연행사, 25:여행코스, 28:레포츠, 32:숙박, 38:쇼핑, 39:음식점)
+        contentTypeId: '15', // 관광타입(12:관광지, 14:문화시설, 15:축제공연행사, 25:여행코스, 28:레포츠, 32:숙박, 38:쇼핑, 39:음식점)
         cateType: '', // 서비스 분류 코드
 
         /* 위치기반 관광정보조회 */
@@ -371,15 +372,15 @@
 
         /* 키워드 검색 조회 */
         keyword: '휴양', // 검색요청할키워드 : (국문=인코딩필요)
-        areaCode: '6', // 지역코드 (현재 사용 X 지역코드 외 시군구코드, 대중소분류 등 더욱 상세히 검색 조건 가능 사용확정 시 추가적으로 알아보기 필요)
+        areaCode: '', // 지역코드 (현재 사용 X 지역코드 외 시군구코드, 대중소분류 등 더욱 상세히 검색 조건 가능 사용확정 시 추가적으로 알아보기 필요)
 
         /* 행사정보조회 */
         eventStartDate: 20200101, // 행사시작일(형식 :YYYYMMDD) 필수
         eventEndDate: '', // 행사종료일(형식 :YYYYMMDD)
 
         /* 공통정보조회 */
-        contentId: '126133', // 콘텐츠 아이디
-        defaultYN: 'N', // 기본정보조회여부( Y,N )
+        contentId: '2861721', // 콘텐츠 아이디  2861721 (15) 126133 (12)
+        defaultYN: 'Y', // 기본정보조회여부( Y,N )
         firstImageYN: 'Y', // 원본, 썸네일대표 이미지, 이미지 공공누리유형정보 조회여부( Y,N )
 
         /* 소개정보조회 */
@@ -411,24 +412,17 @@
 
 
         // 세부 api별 옵션 parameter
-        /* 사용된 api
-        locationBasedList1  위치기반 관광정보조회
-        */
         const pageInfo = '&numOfRows=' + this.numOfrows + '&pageNo=' + this.pageNo
         const listInfo = '&listYN=' + this.listYN
         const arrangeInfo = '&arrange=' + this.arrange
         const contentTypeInfo = '&contentTypeId=' + this.contentTypeId
-
-        /* 사용은 가능한데 현재 사용 X */
-        /* api
-        locationBasedList1  위치기반 관광정보조회
-        */
-        // const modifiedtimeInfo = '&modifiedtime=' + this.modifiedtime
-
+        // const contentIdInfo = '&contentId=' + this.contentId
+        // axios get 요청으로 사용할 변수 선언
         let endpointGet;
 
         if(this.selectAPI.api == 'locationBasedList1'){
           endpointGet = axios.get(commonUrl + pageInfo + listInfo + arrangeInfo + contentTypeInfo + UserParamLoc)
+          console.log(commonUrl + pageInfo + listInfo + arrangeInfo + contentTypeInfo + UserParamLoc)
         } else if(this.selectAPI.api == 'searchKeyword1') {
           endpointGet = axios.get(commonUrl + pageInfo + listInfo + arrangeInfo + contentTypeInfo + keywordInfo)
         } else if (this.selectAPI.api == 'searchFestival1') {
